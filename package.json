@@ -1,0 +1,15 @@
+{
+    "name": "com.vaycks.superiorcharactercontroller",
+    "version": "0.1.0",
+    "displayName": "Superior Character Controller",
+    "description": "Physics-based character controller with arbitrary-gravity support, dynamic surface riding, step/slope handling, and a self-contained inspector (Tabs/EnableIf/ShowInInspector) with no third-party inspector dependency.",
+    "unity": "2021.3",
+    "keywords": [
+        "character controller",
+        "physics",
+        "movement"
+    ],
+    "author": {
+        "name": "Vaycks"
+    }
+}
