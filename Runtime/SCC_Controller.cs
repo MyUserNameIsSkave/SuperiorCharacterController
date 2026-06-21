@@ -49,6 +49,8 @@ namespace SuperiorCharacterController
         [Tooltip("Pull gravity along the target up immediately, skipping the transition animation.")]
         [SerializeField] private bool gravityUsesTargetUp = false;
         [Space(5)]
+        [Tooltip("Gravity strength along the controller's own up axis. Not auto-managed by the controller — drive it yourself each frame (e.g. low-gravity zones, gravity guns).")]
+        public float currentGravity = 45f;
         [Tooltip("0 disable the limit.")]
         [SerializeField] private float maxFallSpeed = 50f;
 
@@ -209,7 +211,6 @@ namespace SuperiorCharacterController
         #endregion
     
     
-        [HideInInspector] public float currentGravity;
         [HideInInspector] public Vector3 wallNormal;
         /// <summary>
         /// Nearest wall contact point from the last probe. Not averaged, and not cleared on loss, so an external probe can keep aiming at the wall through a momentary contact interruption.
