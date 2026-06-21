@@ -2,6 +2,7 @@
 
 A physics-based, sweep-and-slide character controller for Unity, with support for arbitrary gravity (walk on walls, ceilings, etc). It does **not** use Unity's built-in `CharacterController` or a `Rigidbody` for movement — it's a fully custom kinematic sweep-and-slide solution.
 
+
 ## Features
 
 - **Simple, explicit input** — drive the character with a single `AskedLocalVelocity` (body-local) or `AskedWorldVelocity` (world-space) vector. No state machine or event wiring required to get moving.
@@ -25,10 +26,12 @@ To pin a specific version once a tag exists:
 https://github.com/MyUserNameIsSkave/SuperiorCharacterController.git#v0.1.0
 ```
 
+
 ## Requirements
 
 - Unity 2021.3 or newer
 - [DOTween](http://dotween.demigiant.com/) (free version) — used for the up-axis reorientation tween. Import it separately; it isn't bundled, since it isn't distributed as a UPM package itself.
+
 
 ## Usage
 
@@ -52,6 +55,7 @@ scc.currentGravity = 9.81f; // gravity strength along the controller's own up ax
 
 Set whichever velocity field is more convenient for the call site (e.g. `AskedWorldVelocity` for wall normals or camera-relative directions) — both read/write through the same underlying value. `currentGravity` is the second variable you're expected to drive: it has a sane inspector default (45) so the character falls out of the box, but the controller never re-derives it on its own — override it at runtime for anything dynamic (low-gravity zones, gravity guns, etc).
 
+
 ## Custom inspector attributes
 
 Located under `Runtime/Attributes` (namespace `SuperiorCharacterController.Attributes`):
@@ -62,6 +66,7 @@ Located under `Runtime/Attributes` (namespace `SuperiorCharacterController.Attri
 | `[EnableIf("boolFieldName")]` / `[EndIf]` | Greys out this field, and every field after it, until the next `[EndIf]` or a new `[EnableIf]`. |
 | `[ShowInInspector]` | Displays a private, non-serialized field as a read-only debug row. |
 | `[MinMaxRangeSlider(min, max)]` | Draws a `Vector2` as a double-handle min/max slider. |
+
 
 ## AI disclosure
 
