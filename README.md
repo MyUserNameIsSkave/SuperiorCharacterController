@@ -5,12 +5,12 @@ A physics-based, sweep-and-slide character controller for Unity, with support fo
 ## Features
 
 - **Simple, explicit input** — drive the character with a single `AskedLocalVelocity` (body-local) or `AskedWorldVelocity` (world-space) vector. No state machine or event wiring required to get moving.
-- **Arbitrary gravity** — the controller reasons about movement relative to its own up axis, not a hardcoded world up, with a smooth reorientation when that axis changes. Gravity strength itself is just the `currentGravity` field (see [Driving the character](#driving-the-character)) — drive it however your game defines "down".
-- **Step-up and ground snapping** — clears small ledges and keeps contact with stairs/slopes without bouncing.
+- **Arbitrary gravity** — the controller reasons about movement relative to its own up axis, not a hardcoded world up, with a smooth reorientation when that axis changes. Gravity strength itself is just the `currentGravity` field (see [Driving the character](#driving-the-character)).
+- **Step-up and ground snapping** — clears small ledges and keeps contact with stairs/slopes without bouncing (There are some issues on moving stairs).
 - **Slope handling** — slide, climb, and preserve inertia when leaving a slope, with crest detection to launch over ridges instead of gluing to the descending face.
-- **Dynamic surfaces** — ride moving and rotating platforms or walls (`SCC_DynamicSurface`), with full momentum hand-off on leave (position, rotation, launch detection). It doesn't matter what's actually moving the platform — animation, a script, physics — `SCC_DynamicSurface` only reads the transform delta, so any of them works.
+- **Dynamic surfaces** — ride moving and rotating platforms or walls (`SCC_DynamicSurface`), with full momentum hand-off on leave (position, rotation, launch detection). It doesn't matter what's actually moving the platform, animation, a script, physics orelse. `SCC_DynamicSurface` only reads the transform delta, so any of them works.
 - **Rigidbody interaction** — optionally push non-kinematic rigidbodies and be slowed by them in return (`SCC_Pushable`, opt-in per object). This support is intentionally rudimentary: an approximate push/resistance model, not a full physical simulation — don't expect believable heavy-object physics.
-- **Self-contained inspector** — a small set of custom attributes (`Tab`, `EnableIf`/`EndIf`, `ShowInInspector`, `MinMaxRangeSlider`) reproduce the inspector layout without depending on a third-party inspector plugin.
+- **Self-contained inspector** — a small set of custom attributes (`Tab`, `EnableIf`/`EndIf`, `ShowInInspector`, `MinMaxRangeSlider`) organize the layout without depending on a third-party inspector plugin.
 
 ## Installation
 
@@ -50,7 +50,7 @@ scc.AskedWorldVelocity = someWorldSpaceVelocity;                   // world-spac
 scc.currentGravity = 9.81f; // gravity strength along the controller's own up axis, exposed in the Gravity tab (defaults to 45)
 ```
 
-Set whichever velocity field is more convenient for the call site (e.g. `AskedWorldVelocity` for wall normals or camera-relative directions) — both read/write through the same underlying value. `currentGravity` is the second variable you're expected to drive: it has a sane inspector default (45) so the character falls out of the box, but the controller never re-derives it on its own — override it at runtime for anything dynamic (low-gravity zones, gravity guns, etc.).
+Set whichever velocity field is more convenient for the call site (e.g. `AskedWorldVelocity` for wall normals or camera-relative directions) — both read/write through the same underlying value. `currentGravity` is the second variable you're expected to drive: it has a sane inspector default (45) so the character falls out of the box, but the controller never re-derives it on its own — override it at runtime for anything dynamic (low-gravity zones, gravity guns, etc).
 
 ## Custom inspector attributes
 
