@@ -49,7 +49,7 @@ namespace SuperiorCharacterController
         [Tooltip("Pull gravity along the target up immediately, skipping the transition animation.")]
         [SerializeField] private bool gravityUsesTargetUp = false;
         [Space(5)]
-        [Tooltip("Gravity strength along the controller's own up axis. Not auto-managed by the controller — drive it yourself each frame (e.g. low-gravity zones, gravity guns).")]
+        [Tooltip("Gravity strength along the controller's own up axis. Not auto-managed by the controller — drive it yourself at runtime (e.g. low-gravity zones, gravity guns).")]
         public float currentGravity = 45f;
         [Tooltip("0 disable the limit.")]
         [SerializeField] private float maxFallSpeed = 50f;
