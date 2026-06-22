@@ -1,8 +1,9 @@
 using DG.Tweening;
-using SuperiorCharacterController.Attributes;
 using UnityEngine;
+using VInspector;
 
-namespace SuperiorCharacterController
+// ReSharper disable once CheckNamespace
+namespace Ascend.SuperiorCharacterController
 {
     // ReSharper disable InconsistentNaming
     // Run AFTER everything else 
@@ -25,7 +26,7 @@ namespace SuperiorCharacterController
         [Space(5)]
         [SerializeField] private float maxSlopeAngle = 50f;
         [Tooltip("Angle range (from vertical) classified as a wall. Outside this range means floor or ceiling.")]
-        [SerializeField, MinMaxRangeSlider(0, 180f)] Vector2 maxWallAngle = new Vector2(80, 100);
+        [SerializeField, MinMaxSlider(0, 180f)] Vector2 maxWallAngle = new Vector2(80, 100);
 
         [Space(10)]
         [Header("     PROBE DISTANCES")]
@@ -49,7 +50,7 @@ namespace SuperiorCharacterController
         [Tooltip("Pull gravity along the target up immediately, skipping the transition animation.")]
         [SerializeField] private bool gravityUsesTargetUp = false;
         [Space(5)]
-        [Tooltip("Gravity strength along the controller's own up axis. Not auto-managed by the controller — drive it yourself at runtime (e.g. low-gravity zones, gravity guns).")]
+        [Tooltip("Gravity strength along the controller's own up axis. Not auto-managed by the controller, drive it at runtime (e.g. low-gravity zones, gravity guns).")]
         public float currentGravity = 45f;
         [Tooltip("0 disable the limit.")]
         [SerializeField] private float maxFallSpeed = 50f;
@@ -171,27 +172,19 @@ namespace SuperiorCharacterController
         [Space(5)]
         [Tooltip("Inherit velocity when pushed by a moving collider.")]
         [SerializeField] private bool transferPushMomentum = true;
-        [SerializeField, EnableIf("transferPushMomentum")] private float pushMomentumScale = 1f;
-
-        [EndIf]
-
+        [SerializeField, EnableIf("transferPushMomentum")] private float pushMomentumScale = 1f; [EndIf]
+    
         #endregion
-
-
+    
+    
         #region Debug visualization
-
-        const bool falseBool = false;
-        
-        [Tab("Settings", "Settings")]
+        [Tab("Settings")]
         [Header("     VELOCITY")]
-        [EnableIf("falseBool")]
         public Vector3 AskedLocalVelocity;
         public Vector3 appliedVelocity;
-    #if UNITY_EDITOR
         [Space(5)]
         public float currentSpeed;
         public float currentFlattenedSpeed;
-    #endif
 
         [Space(10)]
         [Header("     CONTACT")]
@@ -206,8 +199,6 @@ namespace SuperiorCharacterController
         public bool isSticking;
         [Space(5)]
         public bool isUnderCeiling;
-        
-        [EndIf]
         #endregion
     
     
@@ -346,7 +337,6 @@ namespace SuperiorCharacterController
         private Vector3 surfaceAnchorLocal;
         private bool hasSurfaceAnchor;
 
-        private Vector3 previousPosition;
 
 
         #endregion
@@ -520,8 +510,6 @@ namespace SuperiorCharacterController
             // Re-anchor AFTER the final position so next frame's carry starts from where we actually rest.
             UpdateSurfaceAnchor();
             UpdateWallAnchor();
-
-            DebugValues();
         }
 
         /// <summary>
@@ -532,19 +520,7 @@ namespace SuperiorCharacterController
             if (!followSurfacePosition || wasGrounded || !isGrounded || currentSurface == null) return;
             AskedLocalVelocity -= WorldToBody(Vector3.ProjectOnPlane(currentSurface.GetPointVelocity(transform.position), currentUpDirection));
         }
-    
-    #if UNITY_EDITOR
-        private void DebugValues()
-        {
-            if (Time.deltaTime <= 0f) return;
-
-            appliedVelocity = (transform.position - previousPosition) / Time.deltaTime;
-            previousPosition = transform.position;
-            currentSpeed = appliedVelocity.magnitude;
-            currentFlattenedSpeed = Vector3.ProjectOnPlane(appliedVelocity, currentUpDirection).magnitude;
-            groundAngle = isGrounded ? Vector3.Angle(currentUpDirection, groundNormal) : 0f;
-        }
-    #endif
+        
     
     
         #endregion
@@ -641,7 +617,9 @@ namespace SuperiorCharacterController
                     crestLaunched = false;
                 }
             }
-
+            
+            // Runtime values update, used elsewhere (or not, just in case)
+            groundAngle = isGrounded ? Vector3.Angle(currentUpDirection, groundNormal) : 0f;
         }
 
 
@@ -2004,6 +1982,11 @@ namespace SuperiorCharacterController
                 }
             }
 
+            // Runtime values update, used elsewhere (or not, just in case)
+            appliedVelocity = (validPosition - transform.position) / Time.deltaTime;
+            currentSpeed = appliedVelocity.magnitude;
+            currentFlattenedSpeed = Vector3.ProjectOnPlane(appliedVelocity, currentUpDirection).magnitude;
+            
             // AskedLocalVelocity is deliberately NOT clipped against the planes — the bounce loop resolves POSITION and
             // the movement manager re-derives x/z each frame, so clipping fought it (clip→re-add→clip) and jittered in corners.
             transform.position = validPosition;
