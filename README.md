@@ -15,16 +15,9 @@ A physics-based, sweep-and-slide character controller for Unity, with support fo
 
 ## Installation
 
-Via the Unity Package Manager, using a Git URL:
+Download the `.unitypackage` from the [latest release](https://github.com/MyUserNameIsSkave/SuperiorCharacterController/releases/latest) and import it (**Assets > Import Package > Custom Package...**, or just double-click it).
 
-1. **Window > Package Manager > "+" > Add package from git URL**
-2. Paste: `https://github.com/MyUserNameIsSkave/SuperiorCharacterController.git`
-
-To pin a specific version once a tag exists:
-
-```
-https://github.com/MyUserNameIsSkave/SuperiorCharacterController.git#v0.1.0
-```
+> Installing via "Add package from git URL" is **not supported** — without Assembly Definitions, Unity resolves the Editor and Runtime code as separate, unlinked assemblies once it's treated as an actual package, which breaks compilation. The `.unitypackage` keeps everything under `Assets/` instead, where that split doesn't happen.
 
 
 ## Requirements
