@@ -3,7 +3,7 @@ using UnityEngine;
 using VInspector;
 
 // ReSharper disable once CheckNamespace
-namespace Ascend.SuperiorCharacterController
+namespace SuperiorCharacterController
 {
     // ReSharper disable InconsistentNaming
     // Run AFTER everything else 
